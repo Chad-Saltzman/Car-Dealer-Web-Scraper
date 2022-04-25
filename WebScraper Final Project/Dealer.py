@@ -40,8 +40,8 @@ class Dealer:
                 more_pages = False
             else:
                 page_number += 1
-
-        return self.cars["new"].extend(self.cars["used"])
+        
+        return self.cars["new"] + self.cars["used"]
              
 
     def getHondaInventory(self):
@@ -69,7 +69,7 @@ class Dealer:
             more_pages = self.checkForMoreCars(page_number, page_max_number_of_cars)
 
        
-        return self.cars["new"].extend(self.cars["used"])
+        return self.cars["new"] + self.cars["used"]
 
 
         
@@ -98,7 +98,7 @@ class Dealer:
             
             more_pages = self.checkForMoreCars(page_number, page_max_number_of_cars)
         
-        return self.cars["new"].extend(self.cars["used"])
+        return self.cars["new"] + self.cars["used"]
 
     def checkForMoreCars(self, page_number, max_number):
         return False if page_number >= max_number else True
