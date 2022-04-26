@@ -2,9 +2,9 @@ from selenium import webdriver
 from Dealer import Dealer
 
 def setupWebDriver():
-    options = webdriver.FirefoxOptions()
+    options = webdriver.ChromeOptions()
     options.add_argument("--headless")
-    driver = webdriver.Firefox(options = options)
+    driver = webdriver.Chrome(options = options)
 
     return driver
 
