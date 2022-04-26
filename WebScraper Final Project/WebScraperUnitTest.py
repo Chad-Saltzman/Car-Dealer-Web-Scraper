@@ -40,7 +40,7 @@ class TestWebScraperUnitTest(unittest.TestCase):
         html = '<span class="notranslate">2022 GMC Acadia Denali</span>'
         new_vehicle = Vehicle("test delear", "2000", "Honda", "Civic", "$10000")
         soup = BeautifulSoup(html, "html.parser")
-        self.assertTrue(new_vehicle.searchSoup(soup, "span", "notranslate"))
+        self.assertTrue(new_vehicle.searchSoup(soup, "span", "notranslate")) 
 
     def testSearchSoupFalse(self):
         self.setUpIntegration(active = False)
