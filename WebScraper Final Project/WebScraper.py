@@ -4,6 +4,7 @@ from Dealer import Dealer
 def setupWebDriver():
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
+    options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options = options)
 
     return driver
