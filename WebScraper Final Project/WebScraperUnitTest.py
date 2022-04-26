@@ -58,13 +58,11 @@ class TestWebScraperUnitTest(unittest.TestCase):
         self.setUpIntegration(active = False)
         soup = self.new_dealer.getSourceHTML("https://www.google.com")
         self.assertTrue(soup)
-        self.driver.quit()
 
     def testGetSourceHTMLFail(self):
         self.setUpIntegration( active= False)
         soup = self.new_dealer.getSourceHTML("http://badurltest.lkj")
         self.assertEqual("Failed to get HTML", soup)
-        self.driver.quit()
 
     def testVehicleOutput(self):
         new_vehicle = Vehicle("test dealer", "2000", "Honda", "Civic", "$10000")
