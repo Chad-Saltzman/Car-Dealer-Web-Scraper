@@ -19,7 +19,7 @@ class TestWebScraperUnitTest(unittest.TestCase):
         self.new_vehicle = Vehicle("test dealer", "2000", "Honda", "Civic", "$10000")
 
     def tearDown(self):
-        if self.driver and type(self.driver) != str:
+        if self.driver and type(self.driver) != "Error setting up Web Driver":
             self.driver.quit()
 
     def testWebDriver(self):
