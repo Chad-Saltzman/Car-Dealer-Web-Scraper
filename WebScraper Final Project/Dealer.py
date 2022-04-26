@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup
 import re 
 import time
+import requests
 
 from Vehicle import Vehicle
 
@@ -114,11 +115,19 @@ class Dealer:
             html = self.driver.page_source
             soup = BeautifulSoup(html, "html.parser")
         except:
-            soup = "Failed to get HTML"
+            try:
+                html = requests.get(URL)
+                soup = BeautifulSoup(html, html.parser)
+            except:
+                soup = "Failed to get HTML"
+
         return soup
 
     def searchInventory(self, model):
-        inventory_to_search = self.cars["new"] if self.age_status == "new" else self.cars["used"]
+        if self.age_status == "new":
+            inventory_to_search = self.cars["new"]
+        else:
+            inventory_to_search = self.cars["used"]
         found_matching_vehicles = []
         for vehicle in inventory_to_search:
             if model.lower() in vehicle.model.lower():

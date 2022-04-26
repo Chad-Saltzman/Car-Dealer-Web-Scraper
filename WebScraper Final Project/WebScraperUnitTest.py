@@ -4,6 +4,7 @@ import unittest
 
 from WebScraper import *
 from Vehicle import Vehicle
+import socket
 
 class TestWebScraperUnitTest(unittest.TestCase):
 
@@ -11,21 +12,28 @@ class TestWebScraperUnitTest(unittest.TestCase):
         self.driver = ""
 
     def setUpIntegration(self, active = True):
-        if active:
-            self.driver = setupWebDriver()
-        else:
-            self.driver = ""
+        # if active:
+        #     self.driver = setupWebDriver()
+        # else:
+        #     self.driver = ""
+        self.driver = ""
         self.new_dealer = Dealer(self.driver, "new")
         self.new_vehicle = Vehicle("test dealer", "2000", "Honda", "Civic", "$10000")
 
-    def tearDown(self):
-        if self.driver and type(self.driver) != "Error setting up Web Driver":
-            self.driver.quit()
-
-    def testWebDriver(self):
+    def testWebDriverFail(self):
+        def guard(*args, **kwargs):
+            raise Exception("No sockets available")
+        test = socket.socket
+        socket.socket = guard 
         actual = setupWebDriver()
         expected = "Error setting up Web Driver"
         self.assertEqual(actual, expected)
+        socket.socket = test
+
+    def testWebDriverPass(self):
+        actual = setupWebDriver()
+        expected = webdriver.chrome.webdriver.WebDriver
+        self.assertEqual(type(actual), expected)
         
     def testSearchSoupTrue(self):
         self.setUpIntegration(active = False)
@@ -33,7 +41,6 @@ class TestWebScraperUnitTest(unittest.TestCase):
         new_vehicle = Vehicle("test delear", "2000", "Honda", "Civic", "$10000")
         soup = BeautifulSoup(html, "html.parser")
         self.assertTrue(new_vehicle.searchSoup(soup, "span", "notranslate"))
-        
 
     def testSearchSoupFalse(self):
         self.setUpIntegration(active = False)
@@ -56,7 +63,7 @@ class TestWebScraperUnitTest(unittest.TestCase):
 
     def testGetSourceHTML(self):
         self.setUpIntegration(active = False)
-        soup = self.new_dealer.getSourceHTML("https://www.google.com")
+        soup = self.new_dealer.getSourceHTML("https://www.yahoo.com")
         self.assertTrue(soup)
 
     def testGetSourceHTMLFail(self):
@@ -79,7 +86,8 @@ class TestWebScraperUnitTest(unittest.TestCase):
 
     def testSearchInventoryFalse(self):
         self.setUpIntegration(active = False)
-        self.new_dealer.cars["new"].append(self.new_vehicle)
+        self.new_dealer.age_status = "used"
+        self.new_dealer.cars["used"].append(self.new_vehicle)
         actual = self.new_dealer.searchInventory("tacoma")
         expected = []
         
