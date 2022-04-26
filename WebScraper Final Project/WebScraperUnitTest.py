@@ -1,6 +1,6 @@
 
 from bs4 import BeautifulSoup
-import unittest
+import unittest 
 
 from WebScraper import *
 from Vehicle import Vehicle
