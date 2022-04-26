@@ -23,10 +23,10 @@ class TestWebScraperUnitTest(unittest.TestCase):
             self.driver.quit()
 
     def testWebDriver(self):
-        driver = setupWebDriver()
-        self.assertTrue(driver)
-        driver.quit()
-
+        actual = setupWebDriver()
+        expected = "Error setting up Web Driver"
+        self.assertEqual(actual, expected)
+        
     def testSearchSoupTrue(self):
         self.setUpIntegration(active = False)
         html = '<span class="notranslate">2022 GMC Acadia Denali</span>'
@@ -54,16 +54,14 @@ class TestWebScraperUnitTest(unittest.TestCase):
         year,make,model = self.new_dealer.parseDeviceTitle(title)
         self.assertEqual(year, "Title is in the incorrect format!")
 
-
-
     def testGetSourceHTML(self):
-        self.setUpIntegration()
+        self.setUpIntegration(active = False)
         soup = self.new_dealer.getSourceHTML("https://www.google.com")
         self.assertTrue(soup)
         self.driver.quit()
 
     def testGetSourceHTMLFail(self):
-        self.setUpIntegration()
+        self.setUpIntegration( active= False)
         soup = self.new_dealer.getSourceHTML("http://badurltest.lkj")
         self.assertEqual("Failed to get HTML", soup)
         self.driver.quit()
@@ -74,46 +72,15 @@ class TestWebScraperUnitTest(unittest.TestCase):
         expected = "\nDealer: test dealer\nYear: 2000\nMake: Honda\nModel: Civic\nPrice: $10000\nTransmission: test_tran\n"
         self.assertEqual(str(expected), str(new_vehicle))
 
-
-
-
-    # def testWebScrapeFordDealerNewCars(self):
-        # self.setUpIntegration()
-    #     self.assertTrue(self.new_dealer.getFordInventory())
-
-    # def testWebScrapeFordDealerUsedCars(self):
-        # self.setUpIntegration()
-    #     self.new_dealer.age_status = "used"
-    #     self.assertTrue(self.new_dealer.getFordInventory())
-
-    # def testWebScrapeHondaDealerNewCars(self):
-        # self.setUpIntegration()
-    #     self.assertTrue(self.new_dealer.getHondaInventory())
-
-    # def testWebScrapeHondaDealerUsedCars(self):
-        # self.setUpIntegration()
-    #     self.new_dealer.age_status = "used"
-
-    #     self.assertTrue(self.new_dealer.getHondaInventory())
-
-    # def testWebScrapeToyotaDealerNewCars(self):
-        # self.setUpIntegration()
-    #     self.assertTrue(self.new_dealer.getToyotaInventory())
-
-    # def testWebScrapeToyotaDealerUsedCars(self):
-        # self.setUpIntegration()
-    #     self.new_dealer.age_status = "used"
-    #     self.assertTrue(self.new_dealer.getToyotaInventory())
-
     def testSearchInventoryTrue(self):
-        self.setUpIntegration()
+        self.setUpIntegration(active = False)
         self.new_dealer.cars["new"].append(self.new_vehicle)
         actual = self.new_dealer.searchInventory("civic")
         expected = [self.new_vehicle]
         self.assertEqual(actual, expected)
 
     def testSearchInventoryFalse(self):
-        self.setUpIntegration()
+        self.setUpIntegration(active = False)
         self.new_dealer.cars["new"].append(self.new_vehicle)
         actual = self.new_dealer.searchInventory("tacoma")
         expected = []

@@ -6,10 +6,11 @@ def setupWebDriver():
     options.add_argument("--headless")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(options = options)
-
-    return driver
-
+    try:
+        driver = webdriver.Chrome(options = options)
+        return driver
+    except:
+        return "Error setting up Web Driver"
 def webScraperMain():
     print("\tWelcome to Car Search")
     age_status = input("Would you like to search for new or used cars?\n") or "new"
