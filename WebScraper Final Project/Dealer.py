@@ -56,7 +56,7 @@ class Dealer:
             if soup_provided:
                 soup = soup_provided 
             else:
-                soup = self.getSourceHTML(self.ford_dealer_website.format(self.age_status, page_number))
+                soup = self.getSourceHTML(self.honda_dealer_website.format(self.age_status, page_number))
             page_max_number_of_cars = 0
             vehicles = soup.find_all("div", class_ = "vehicle-card-details-container")
             for vehicle in vehicles:
@@ -89,7 +89,7 @@ class Dealer:
             if soup_provided:
                 soup = soup_provided 
             else:
-                soup = self.getSourceHTML(self.ford_dealer_website.format(self.age_status, page_number))
+                soup = self.getSourceHTML(self.toyota_dealer_website.format(self.age_status, page_number))
             page_max_number_of_cars = 0
             vehicles = soup.find_all("div", class_ = "vehicle-card-details-container")
             for vehicle in vehicles:
