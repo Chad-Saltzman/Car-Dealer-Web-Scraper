@@ -19,24 +19,6 @@ class TestWebScraperUnitTest(unittest.TestCase):
         self.driver = ""
         self.new_dealer = Dealer(self.driver, "new")
         self.new_vehicle = Vehicle("test dealer", "2000", "Honda", "Civic", "$10000")
-
-<<<<<<< Updated upstream
-    def testWebDriverFail(self):
-        def guard(*args, **kwargs):
-            raise Exception("No sockets available")
-        test = socket.socket
-        socket.socket = guard 
-        actual = setupWebDriver()
-        expected = "Error setting up Web Driver"
-        self.assertEqual(actual, expected)
-        socket.socket = test
-
-   # def testWebDriverPass(self):
-   #     actual = setupWebDriver()
-   #     expected = webdriver.chrome.webdriver.WebDriver
-   #     self.assertEqual(type(actual), expected)
-=======
->>>>>>> Stashed changes
         
     def testSearchSoupTrue(self):
         self.setUpIntegration(active = False)
