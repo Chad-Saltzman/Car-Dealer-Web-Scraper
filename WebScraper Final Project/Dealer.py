@@ -58,7 +58,6 @@ class Dealer:
             else:
                 soup = self.getSourceHTML(self.ford_dealer_website.format(self.age_status, page_number))
             page_max_number_of_cars = 0
-            max_number_of_cars = int(soup.find("span", class_ = "d-none d-sm-inline").text.split(" ")[0])
             vehicles = soup.find_all("div", class_ = "vehicle-card-details-container")
             for vehicle in vehicles:
                 page_max_number_of_cars += 1
@@ -92,7 +91,6 @@ class Dealer:
             else:
                 soup = self.getSourceHTML(self.ford_dealer_website.format(self.age_status, page_number))
             page_max_number_of_cars = 0
-            max_number_of_cars = int(soup.find("span", class_ = "d-none d-sm-inline").text.split(" ")[0])   
             vehicles = soup.find_all("div", class_ = "vehicle-card-details-container")
             for vehicle in vehicles:
                 page_max_number_of_cars += 1
