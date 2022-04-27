@@ -118,8 +118,6 @@ class TestWebScraperUnitTest(unittest.TestCase):
         soup = BeautifulSoup(html, "html.parser")
         actual = self.new_dealer.getFordInventory(soup)
         expected = "[\nDealer: Corwin Ford Reno\nYear: 2022\nMake: Ford\nModel: Explorer ST In-Transit\nPrice: $64,900\nTransmission: 10-Speed Automatic\nExt. Color: Forged Green Metallic\nInt. Color: Seating Surfaces Ebony Interior\nVIN #: 1FM5K8GC3NGA03189\n]"
-        print(type(actual))
-        print(type(expected))
         self.assertEqual(str(actual), expected)
 
     def testGetHondaInventory(self):
