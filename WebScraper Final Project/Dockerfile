@@ -6,6 +6,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-RUN ["python3", "./WebScraperUnitTest.py"]
-
-CMD ["python3", "./WebScraperIntegrationTest.py"]
+CMD ["test.sh"]
