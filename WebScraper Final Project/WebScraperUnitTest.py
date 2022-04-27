@@ -20,6 +20,7 @@ class TestWebScraperUnitTest(unittest.TestCase):
         self.new_dealer = Dealer(self.driver, "new")
         self.new_vehicle = Vehicle("test dealer", "2000", "Honda", "Civic", "$10000")
 
+<<<<<<< Updated upstream
     def testWebDriverFail(self):
         def guard(*args, **kwargs):
             raise Exception("No sockets available")
@@ -34,6 +35,8 @@ class TestWebScraperUnitTest(unittest.TestCase):
    #     actual = setupWebDriver()
    #     expected = webdriver.chrome.webdriver.WebDriver
    #     self.assertEqual(type(actual), expected)
+=======
+>>>>>>> Stashed changes
         
     def testSearchSoupTrue(self):
         self.setUpIntegration(active = False)
@@ -118,7 +121,58 @@ class TestWebScraperUnitTest(unittest.TestCase):
         max_number = 100
         page_number = 150
         self.assertFalse(self.new_dealer.checkForMoreCars(page_number, max_number))
+
+    def testGetFordInventory(self):
+        self.setUpIntegration(active = False)
+        html = """<div class="vehicleDetailsColumn col-md-8 col-sm-8 pad-1x">
+                  <span class="notranslate">2022 Ford Explorer ST In-Transit</span>
+                  <span style="font-weight:bold;font-size:1.4em;" class="pull-right primaryPrice">$64,900</span>
+                  <li class="transmissionDisplay"><strong>Transmission: </strong>10-Speed Automatic</li>
+                  <li class="extColor"><strong>Ext. Color: </strong>Forged Green Metallic</li>
+                  <li class="intColor"><strong>Int. Color: </strong>Seating Surfaces Ebony Interior</li>
+                  <li class="vinDisplay"><strong>VIN #: </strong><span>1FM5K8GC3NGA03189</span></li>
+                  </div>"""
+
+        soup = BeautifulSoup(html, "html.parser")
+        actual = self.new_dealer.getFordInventory(soup)
+        expected = "[\nDealer: Corwin Ford Reno\nYear: 2022\nMake: Ford\nModel: Explorer ST In-Transit\nPrice: $64,900\nTransmission: 10-Speed Automatic\nExt. Color: Forged Green Metallic\nInt. Color: Seating Surfaces Ebony Interior\nVIN #: 1FM5K8GC3NGA03189\n]"
+        print(type(actual))
+        print(type(expected))
+        self.assertEqual(str(actual), expected)
+
+    def testGetHondaInventory(self):
+        self.setUpIntegration(active = False)
+        html = """<span class="d-none d-sm-inline">230 Vehicles</span>
+                  <div class="vehicle-card-details-container">
+                  <span class="price-value" data-style-editor-id="srp-pre-owned-price-value" data-style-editor-text=".srp .inv-type-pre-owned.pricing-detail .final-price .price-value">$7,994</span>
+                  <a href="/used/Chevrolet/2011-Chevrolet-Aveo-near-reno-nv-f063a9760a0e09a82f043eac9f082e0a.htm">2011 Chevrolet Aveo Aveo 5</a>
+                  <li class="transmission">Transmission:  Automatic </li>
+                  <li class="normalized-swatch-container exteriorColor"><span class="normalized-swatch normalized-swatch-red"></span>Sport Red Exterior</li>
+                  <li class="normalized-swatch-container interiorColor"><span class="normalized-swatch normalized-swatch-gray"></span>Light Gray/Charcoal Interior</li>
+                  </div>"""
+
+        soup = BeautifulSoup(html, "html.parser")
+        actual = self.new_dealer.getHondaInventory(soup)
+        expected = "[\nDealer: Michael Hohl Honda\nYear: 2011\nMake: Chevrolet\nModel: Aveo Aveo 5\nPrice: $7,994\nTransmission:  Automatic \nSport Red Exterior\nLight Gray/Charcoal Interior\n]"
+        self.assertEqual(str(actual), expected)
+
+    def testGetToyotaInventory(self):
+        self.setUpIntegration(active = False)
+        html = """<span class="d-none d-sm-inline">100 Vehicles</span>
+                  <div class="vehicle-card-details-container">
+                  <span class="price-value" data-style-editor-id="srp-new-price-value" data-style-editor-text=".srp .inv-type-new.pricing-detail .final-price .price-value">$40,957</span>
+                  <a href="/new/Toyota/2022-Toyota-RAV4+Hybrid-Reno-8f45ee220a0e0971574eb683a08245d6.htm">2022 Toyota RAV4 Hybrid XSE SUV</a>
+                  <li class="transmission">continuously variable automatic </li>
+                  <li class="normalized-swatch-container exteriorColor"><span class="normalized-swatch normalized-swatch-blue"></span>Cavalry Blue/Midnight Black Exterior</li>
+                  <li class="normalized-swatch-container interiorColor"><span class="normalized-swatch normalized-swatch-black"></span>Black Interior</li>
+                  </div>"""
+
+        soup = BeautifulSoup(html, "html.parser")
+        actual = self.new_dealer.getToyotaInventory(soup)
+        expected = "[\nDealer: Dolan Reno Toyota\nYear: 2022\nMake: Toyota\nModel: RAV4 Hybrid XSE SUV\nPrice: $40,957\ncontinuously variable automatic \nCavalry Blue/Midnight Black Exterior\n]"
+        self.assertEqual(str(actual), expected)
+
+
         
 if __name__ == "__main__":
     unittest.main()
-

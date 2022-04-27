@@ -19,11 +19,14 @@ class Dealer:
         self.honda_dealer_website = "https://www.michaelhohlhonda.com/{}-inventory/index.htm?start={}"
         self.toyota_dealer_website = "https://www.dolanrenotoyota.com/{}-inventory/index.htm?start={}"
         
-    def getFordInventory(self):
+    def getFordInventory(self, soup_provided = None):
         more_pages = True 
         page_number = 1
         while more_pages:
-            soup = self.getSourceHTML(self.ford_dealer_website.format(self.age_status, page_number))
+            if soup_provided:
+                soup = soup_provided 
+            else:
+                soup = self.getSourceHTML(self.ford_dealer_website.format(self.age_status, page_number))
             max_number_of_cars, page_max_number_of_cars = self.getCarsOnPage(soup)
             vehicles = soup.find_all("div", class_ = "vehicleDetailsColumn col-md-8 col-sm-8 pad-1x")
             for vehicle in vehicles:
@@ -36,7 +39,8 @@ class Dealer:
                 new_vehicle.int_color = vehicle.find("li", class_ = "intColor").text if vehicle.find("li", class_ = "intColor") else ""
                 new_vehicle.vin = vehicle.find("li", class_ = "vinDisplay").text if vehicle.find("li", class_ = "vinDisplay") else ""
                 self.cars[self.age_status].append(new_vehicle)
-
+            if soup_provided:
+                break
             if page_max_number_of_cars >= max_number_of_cars:
                 more_pages = False
             else:
@@ -45,11 +49,14 @@ class Dealer:
         return self.cars["new"] + self.cars["used"]
              
 
-    def getHondaInventory(self):
+    def getHondaInventory(self, soup_provided = None):
         more_pages = True 
         page_number = 0
         while more_pages:
-            soup = self.getSourceHTML(self.honda_dealer_website.format(self.age_status, page_number))
+            if soup_provided:
+                soup = soup_provided 
+            else:
+                soup = self.getSourceHTML(self.ford_dealer_website.format(self.age_status, page_number))
             page_max_number_of_cars = 0
             max_number_of_cars = int(soup.find("span", class_ = "d-none d-sm-inline").text.split(" ")[0])
             vehicles = soup.find_all("div", class_ = "vehicle-card-details-container")
@@ -64,7 +71,8 @@ class Dealer:
                 new_vehicle.int_color = vehicle.find("li", class_= "normalized-swatch-container interiorColor").text if vehicle.find("li", class_= "normalized-swatch-container interiorColor") else ""
                 new_vehicle.vin = vehicle.find("li", class_= "vin").text if vehicle.find("li", class_= "vin") else ""
                 self.cars[self.age_status].append(new_vehicle)
-             
+            if soup_provided:
+                break
             page_number += page_max_number_of_cars
 
             more_pages = self.checkForMoreCars(page_number, page_max_number_of_cars)
@@ -75,11 +83,14 @@ class Dealer:
 
         
 
-    def getToyotaInventory(self):
+    def getToyotaInventory(self, soup_provided = None):
         more_pages = True 
         page_number = 0
         while more_pages:
-            soup = self.getSourceHTML(self.toyota_dealer_website.format(self.age_status, page_number))
+            if soup_provided:
+                soup = soup_provided 
+            else:
+                soup = self.getSourceHTML(self.ford_dealer_website.format(self.age_status, page_number))
             page_max_number_of_cars = 0
             max_number_of_cars = int(soup.find("span", class_ = "d-none d-sm-inline").text.split(" ")[0])   
             vehicles = soup.find_all("div", class_ = "vehicle-card-details-container")
@@ -94,7 +105,8 @@ class Dealer:
                 new_vehicle.int_color = vehicle.find("li", class_= "normalized-swatch-container interiorColor").text if vehicle.find("li", class_= "nnormalized-swatch-container interiorColor") else ""
 
                 self.cars[self.age_status].append(new_vehicle)
-
+            if soup_provided:
+                break
             page_number += page_max_number_of_cars
             
             more_pages = self.checkForMoreCars(page_number, page_max_number_of_cars)
@@ -152,3 +164,6 @@ class Dealer:
             return max_number_of_cars, page_max_number_of_cars
         except:
             return 0, 0
+
+
+            
