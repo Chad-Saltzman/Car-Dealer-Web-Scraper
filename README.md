@@ -1,6 +1,5 @@
 Car Dealer Web Scraper  (CS491 DevOps and Testing)  
 
-
 Final Project Application Pipeline
 
 Tech Stack:
