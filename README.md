@@ -24,6 +24,6 @@ Tech Stack:
  To run the application Main Driver:
     git clone https://github.com/Chad-Saltzman/Car-Dealer-Web-Scraper.git
     run the command python3 WebScraper.py  
-      
+       
    
   
